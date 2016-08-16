@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "Combines mulitple svg files into one.",
   "main": "src/svgstore.js",
+  "bin": {
+    "svgstore": "./bin/svgstore"
+  },
   "scripts": {
     "coveralls": "nyc report -r text-lcov | coveralls",
     "test": "xo src/*.js test/*.js; nyc ava -v",
@@ -31,6 +34,7 @@
   "homepage": "https://github.com/shannonmoeller/svgstore",
   "dependencies": {
     "cheerio": "^0.20.0",
+    "glob": "^7.0.5",
     "object-assign": "^4.1.0"
   },
   "devDependencies": {

@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+'use strict';
+
+var fs        = require('fs');
+var path      = require('path');
+var glob      = require('glob');
+var svgstore  = require('../src/svgstore');
+
+var output = '';
+var inputs = [];
+
+
+for (var i = 2; i < process.argv.length; i++) {
+    if (process.argv[i] === '-o') {
+        if (process.argv[i+1] !== undefined) {
+            output = process.argv[++i];
+        } else {
+            console.error('Missing output filename');
+            return -2;
+        }
+    } else {
+        inputs = inputs.concat(glob.sync(process.argv[i]));
+    }
+}
+
+if (inputs.length == 0) {
+    console.error('No input files provided');
+    return -1;
+}
+
+
+// Build up the spritesheet
+var sprites = inputs.reduce(function(sprites, file) {
+    return sprites.add(path.basename(file, '.svg'), fs.readFileSync(file, 'utf8'));
+}, svgstore());
+
+
+// Output to file, or to stdout
+if (output) {
+    fs.writeFileSync(output, sprites);
+} else {
+    console.log(sprites.toString());
+}
