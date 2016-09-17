@@ -120,9 +120,9 @@ test('should attempt to preserve the `viewBox`, `aria-labelledby`, and `role` at
 	t.is(store.toString(), expected);
 });
 
-test('should support custom attribute preservation, on top of the defaults', async t => {
-	const customSymbolAttrs = ['preserveAspectRatio', 'take-me-too'];
-	const store = svgstore({customSymbolAttrs})
+test('should support custom attribute copying, on top of the defaults', async t => {
+	const copiedSymbolAttrs = ['preserveAspectRatio', 'take-me-too'];
+	const store = svgstore({copiedSymbolAttrs})
 		.add('corge', FIXTURE_SVGS.corge);
 
 	const expected = doctype +
@@ -136,10 +136,10 @@ test('should support custom attribute preservation, on top of the defaults', asy
 	t.is(store.toString(), expected);
 });
 
-test('should set symbol attributes', async t => {
+test('should support custom attributes on a <symbol>', async t => {
 	const options = {
 		inline: true,
-		symbolAttrs: {
+		customSymbolAttrs: {
 			viewBox: null,
 			id: function (id) {
 				return 'icon-' + id;
@@ -163,12 +163,13 @@ test('should set symbol attributes', async t => {
 	t.is(store.toString(), expected);
 });
 
-test('should set svg attributes', async t => {
+test('should support custom attributes on the root <svg>', async t => {
 	const options = {
 		inline: true,
-		svgAttrs: {
+		customSVGAttrs: {
 			id: 'spritesheet',
-			style: 'display: none'
+			style: 'display: none',
+			custom: 'awesome'
 		}
 	};
 
@@ -176,7 +177,7 @@ test('should set svg attributes', async t => {
 		.add('foo', doctype + FIXTURE_SVGS.foo)
 		.add('bar', doctype + FIXTURE_SVGS.bar);
 
-	const expected = '<svg id="spritesheet" style="display: none">' +
+	const expected = '<svg id="spritesheet" style="display: none" custom="awesome">' +
 		'<defs>' +
 		'<linear-gradient style="fill: red;"/>' +
 		'<radial-gradient style="stroke: red;"/>' +

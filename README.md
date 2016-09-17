@@ -62,8 +62,15 @@ Outputs sprite as a string of XML.
 ## <a name="svgstore-options"></a>Options
 
 - `cleanDefs` `{Boolean|Array}` (default: `false`) Remove `style` attributes from SVG definitions, or a list of attributes to remove.
+
 - `cleanObjects` `{Boolean|Array}` (default: `false`) Remove `style` attributes from SVG objects, or a list of attributes to remove.
-- `customSymbolAttrs` `{Array}` (default: `[]`) Custom attributes to have `svgstore` attempt to copy to the newly created `<symbol/>` tag from the root SVG. These will be searched for in addition to `id`, `viewBox`, `aria-labelledby`, and `role`.
+
+- `customSymbolAttrs` `{Object}` (default: `null`) A mapping of attribute names to values for `svgstore` to set on the final root `<svg>` node.
+
+- `copiedSymbolAttrs` `{Object}` (default: `null`) A list of attributes to have `svgstore` search for in a source `<svg>` 
+    and copy to the newly created `<symbol/>` tag. These will be searched for alongside the following defaults: `id`, `viewBox`, `aria-labelledby`, and `role`.
+    
+- `customSVGAttrs` `{Array}` (default: `null`) Custom attributes to have `svgstore` attempt to copy to the newly created `<symbol/>` tag from the root SVG.
 
 ## Contributing
 

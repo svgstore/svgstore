@@ -19,8 +19,9 @@ var DEFAULT_OPTIONS = {
 	cleanDefs: false,
 	cleanSymbols: false,
 	inline: false,
-	svgAttrs: false,
-	symbolAttrs: false
+	customSVGAttrs: null,
+	customSymbolAttrs: null,
+	copiedSymbolAttrs: []
 };
 
 function svgstore(options) {
@@ -46,10 +47,10 @@ function svgstore(options) {
 			childDefs.remove();
 
 			// <symbol>
-			var childSymbol = svgToSymbol(id, child, addOptions);
+			var childSymbol = svgToSymbol(id, child, addOptions.copiedSymbolAttrs);
 
 			removeAttributes(childSymbol, addOptions.cleanSymbols);
-			setAttributes(childSymbol, addOptions.symbolAttrs);
+			setAttributes(childSymbol, addOptions.customSymbolAttrs);
 			parentSvg.append(childSymbol);
 
 			return this;
@@ -63,7 +64,7 @@ function svgstore(options) {
 			// <svg>
 			var svg = clone(SELECTOR_SVG);
 
-			setAttributes(svg, toStringOptions.svgAttrs);
+			setAttributes(svg, toStringOptions.customSVGAttrs);
 
 			// output inline
 			if (toStringOptions.inline) {
