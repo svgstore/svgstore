@@ -5,13 +5,13 @@
 
 'use strict';
 
-function setAttributes(el, attrs) {
-	if (!attrs || typeof attrs !== 'object') {
+function setAttributes(el, attrHash) {
+	if (!attrHash || typeof attrHash !== 'object') {
 		return el;
 	}
 
-	Object.keys(attrs).forEach(function (attr) {
-		var value = attrs[attr];
+	Object.keys(attrHash).forEach(function (attr) {
+		var value = attrHash[attr];
 
 		// Handle function values directly as cherrio passes an unhelpful index
 		// as the first argument in the native function handler.
