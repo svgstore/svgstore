@@ -23,7 +23,8 @@ var DEFAULT_OPTIONS = {
 	svgAttrs: false,
 	symbolAttrs: false,
 	copyAttrs: false,
-	renameDefs: false
+	renameDefs: false,
+	renameMasks: false
 };
 
 function svgstore(options) {
@@ -65,6 +66,32 @@ function svgstore(options) {
 					/* process fill attributes */
 					child('[fill="url(#' + oldDefId + ')"]').each(function (i, use) {
 						child(use).attr('fill', 'url(#' + newDefId + ')');
+					});
+				});
+			}
+
+			/* rename masks ids */
+			if (addOptions.renameMasks) {
+				/* find mask usages */
+				child('[mask]').each(function (i, elem) {
+					var usageElem = child(elem);
+					var parsedId = String(usageElem.attr('mask')).match(/url\(#(.*?)\)/)[1] || '';
+
+					if (parsedId.length === 0) {
+						return;
+					}
+
+					var maskElement = child('[id="' + parsedId + '"]');
+
+					/* rename mask */
+					var oldMaskId = maskElement.attr('id');
+					var newMaskId = 'mask_' + id + '_' + oldMaskId;
+					maskElement.attr('id', newMaskId);
+
+					/* rename usages */
+					child('[mask="url(#' + oldMaskId + ')"]').each(function (i, elem) {
+						var usageElem = child(elem);
+						usageElem.attr('mask', 'url(#' + newMaskId + ')');
 					});
 				});
 			}
