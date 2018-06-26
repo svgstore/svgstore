@@ -67,6 +67,7 @@ Outputs sprite as a string of XML.
 - `symbolAttrs` `{Boolean|Object}` (default: `false`) A map of attributes to set on each `<symbol>` element. If you set an attribute's value to null, you remove that attribute. Values may be functions like jQuery.
 - `copyAttrs` `{Boolean|Array}` (default: `false`) Attributes to have `svgstore` attempt to copy to the newly created `<symbol>` tag from it's source `<svg>` tag. The `viewBox`, `aria-labelledby`, and `role` attributes are always copied.
 - `renameDefs` `{Boolean}` (default: `false`) Rename `defs` content ids to make them inherit files' names so that it would help to avoid defs with same ids in the output file.
+- `renameMasks` `{Boolean}` (default: `false`) Rename `mask`s' ids to make sure they have quite unique names in the output file. Their ids are formed with `mask` prefix + name of the file (symbol id) + former mask id.
 
 ## Contributing
 
