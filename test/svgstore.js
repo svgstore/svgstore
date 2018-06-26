@@ -16,7 +16,9 @@ const FIXTURE_SVGS = {
 	quux: '<svg viewBox="0 0 200 200" aria-labelledby="titleId" role="img"><title id="titleId">A boxy shape</title><rect/></svg>',
 	corge: '<svg viewBox="0 0 200 200" aria-labelledby="titleId" role="img" preserveAspectRatio="xMinYMax" take-me-too="foo" count-me-out="bar">' +
 		'<title id="titleId">A boxy shape</title><rect/></svg>',
-	defsWithId: '<svg><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#FFF" offset="0%"/><stop stop-color="#F0F0F0" offset="100%"/></linearGradient><path id="b" d=""/></defs><path fill="url(#a)" fill-rule="nonzero" d=""/><use xlink:href="#b"></use><use fill-rule="nonzero" xlink:href="#b"></use><path fill="url(#a)" fill-rule="nonzero" d=""/></svg>'
+	defsWithId: '<svg><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a"><stop stop-color="#FFF" offset="0%"/><stop stop-color="#F0F0F0" offset="100%"/></linearGradient><path id="b" d=""/></defs><path fill="url(#a)" fill-rule="nonzero" d=""/><use xlink:href="#b"></use><use fill-rule="nonzero" xlink:href="#b"></use><path fill="url(#a)" fill-rule="nonzero" d=""/></svg>',
+	fooMask: '<svg><path id="a"/><rect mask="url(#a)"></rect></svg>',
+	barMask: '<svg><mask id="b"><path style="fill: red;"/></mask><rect mask="url(#b)"/></svg>'
 };
 
 test('should create an svg document', async t => {
@@ -211,6 +213,30 @@ test('should rename defs id', async t => {
 		'<use xlink:href="#defs_with_id_b"/>' +
 		'<use fill-rule="nonzero" xlink:href="#defs_with_id_b"/>' +
 		'<path fill="url(#defs_with_id_a)" fill-rule="nonzero" d=""/>' +
+		'</symbol>' +
+		'</svg>';
+
+	t.is(store.toString(), expected);
+});
+
+
+test('should rename mask ids', async t => {
+	const options = {
+		inline: true,
+		renameMasks: true
+	};
+
+	const store = svgstore(options)
+		.add('foo_mask', doctype + FIXTURE_SVGS.fooMask)
+		.add('bar_mask', doctype + FIXTURE_SVGS.barMask);
+
+	const expected = '<svg>' +
+		'<defs/>' +
+		'<symbol id="foo_mask">' +
+		'<path id="mask_foo_mask_a"/><rect mask="url(#mask_foo_mask_a)"/>' +
+		'</symbol>' +
+		'<symbol id="bar_mask">' +
+		'<mask id="mask_bar_mask_b"><path style="fill: red;"/></mask><rect mask="url(#mask_bar_mask_b)"/>' +
 		'</symbol>' +
 		'</svg>';
 
