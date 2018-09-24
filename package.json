@@ -47,7 +47,7 @@
     "object-assign": "^4.1.0"
   },
   "devDependencies": {
-    "ava": "0.16.0",
+    "ava": "^1.0.0-beta.6",
     "chokidar-cli": "^1.2.0",
     "coveralls": "^2.11.12",
     "nyc": "^8.1.0",

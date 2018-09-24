@@ -23,7 +23,9 @@ var DEFAULT_OPTIONS = {
 	svgAttrs: false,
 	symbolAttrs: false,
 	copyAttrs: false,
-	renameDefs: false
+	renameDefs: false,
+	renameMasks: false,
+	pullOutFromSymbol: false
 };
 
 function svgstore(options) {
@@ -53,11 +55,44 @@ function svgstore(options) {
 					var oldDefId = elem.attr('id');
 					var newDefId = id + '_' + oldDefId;
 					elem.attr('id', newDefId);
+
+					/* process use tags */
 					child('use').each(function (i, use) {
 						if (child(use).prop('xlink:href') !== '#' + oldDefId) {
 							return;
 						}
 						child(use).attr('xlink:href', '#' + newDefId);
+					});
+
+					/* process fill attributes */
+					child('[fill="url(#' + oldDefId + ')"]').each(function (i, use) {
+						child(use).attr('fill', 'url(#' + newDefId + ')');
+					});
+				});
+			}
+
+			/* rename masks ids */
+			if (addOptions.renameMasks) {
+				/* find mask usages */
+				child('[mask]').each(function (i, elem) {
+					var usageElem = child(elem);
+					var parsedId = String(usageElem.attr('mask')).match(/url\(#(.*?)\)/)[1] || '';
+
+					if (parsedId.length === 0) {
+						return;
+					}
+
+					var maskElement = child('[id="' + parsedId + '"]');
+
+					/* rename mask */
+					var oldMaskId = maskElement.attr('id');
+					var newMaskId = 'mask_' + id + '_' + oldMaskId;
+					maskElement.attr('id', newMaskId);
+
+					/* rename usages */
+					child('[mask="url(#' + oldMaskId + ')"]').each(function (i, elem) {
+						var usageElem = child(elem);
+						usageElem.attr('mask', 'url(#' + newMaskId + ')');
 					});
 				});
 			}
@@ -72,7 +107,19 @@ function svgstore(options) {
 			removeAttributes(childSymbol, addOptions.cleanSymbols);
 			copyAttributes(childSymbol, childSvg, addOptions.copyAttrs);
 			setAttributes(childSymbol, addOptions.symbolAttrs);
-			parentSvg.append(childSymbol);
+
+			var mask;
+			if (addOptions.pullOutFromSymbol) {
+				childSymbol.each(function (i, el) {
+					var result = loadXml(el);
+					mask = result.html('mask');
+					result('mask').remove();
+
+					parentSvg.append(mask + result.html());
+				});
+			} else {
+				parentSvg.append(childSymbol);
+			}
 
 			return this;
 		},
