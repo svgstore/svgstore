@@ -21,7 +21,6 @@ function svgToSymbol(id, child, options) {
 
 	// initialize a new <symbol> element
 	var symbol = child(TEMPLATE_SYMBOL);
-
 	symbol.attr(ATTRIBUTE_ID, id);
 	symbol.append(svgElem.contents());
 

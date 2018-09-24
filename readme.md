@@ -68,6 +68,7 @@ Outputs sprite as a string of XML.
 - `copyAttrs` `{Boolean|Array}` (default: `false`) Attributes to have `svgstore` attempt to copy to the newly created `<symbol>` tag from it's source `<svg>` tag. The `viewBox`, `aria-labelledby`, and `role` attributes are always copied.
 - `renameDefs` `{Boolean}` (default: `false`) Rename `defs` content ids to make them inherit files' names so that it would help to avoid defs with same ids in the output file.
 - `renameMasks` `{Boolean}` (default: `false`) Rename `mask`s' ids to make sure they have quite unique names in the output file. Their ids are formed with `mask` prefix + name of the file (symbol id) + former mask id.
+- `pullOutFromSymbol` `{Boolean}` (default: `false`) Pull `mask` out from `symbol` section ([it needs for rendering icons in Firefox](https://stackoverflow.com/questions/29480607/clip-path-not-working-in-svg-sprite)).
 
 ## Contributing
 

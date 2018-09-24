@@ -24,7 +24,8 @@ var DEFAULT_OPTIONS = {
 	symbolAttrs: false,
 	copyAttrs: false,
 	renameDefs: false,
-	renameMasks: false
+	renameMasks: false,
+	pullOutFromSymbol: false
 };
 
 function svgstore(options) {
@@ -106,7 +107,19 @@ function svgstore(options) {
 			removeAttributes(childSymbol, addOptions.cleanSymbols);
 			copyAttributes(childSymbol, childSvg, addOptions.copyAttrs);
 			setAttributes(childSymbol, addOptions.symbolAttrs);
-			parentSvg.append(childSymbol);
+
+			var mask;
+			if (addOptions.pullOutFromSymbol) {
+				childSymbol.each(function (i, el) {
+					var result = loadXml(el);
+					mask = result.html('mask');
+					result('mask').remove();
+
+					parentSvg.append(mask + result.html());
+				});
+			} else {
+				parentSvg.append(childSymbol);
+			}
 
 			return this;
 		},
