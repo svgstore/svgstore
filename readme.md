@@ -6,7 +6,7 @@ Combines multiple SVG files into one using `<symbol>` elements which you may [`<
 
 ## Install
 
-    $ npm install --save svgstore
+    $ npm install svgstore --save-dev
 
 ## Usage
 
