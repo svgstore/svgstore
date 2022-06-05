@@ -16,10 +16,10 @@ declare type Options = {
 	renameDefs?: boolean;
 };
 
-declare function svgstore(options: Options): {
+declare function svgstore(options?: Options): {
 	element: import('cheerio').CheerioAPI;
-	add: (id: string, file: string, options: Options) => any;
-	toString: (options: Options) => string;
+	add: (id: string, file: string, options?: Options) => any;
+	toString: (options?: Options) => string;
 };
 
 export default svgstore;
