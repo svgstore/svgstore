@@ -1,7 +1,8 @@
-declare type Options = {
+declare type SvgstoreOptions = SvgstoreAddOptions & SvgstoreTostringOptions;
+
+declare type SvgstoreAddOptions = {
 	cleanDefs?: boolean | string[];
 	cleanSymbols?: boolean | string[];
-	inline?: boolean;
 	svgAttrs?:
 		| boolean
 		| {
@@ -16,10 +17,14 @@ declare type Options = {
 	renameDefs?: boolean;
 };
 
-declare function svgstore(options?: Options): {
+declare type SvgstoreTostringOptions = {
+	inline?: boolean;
+};
+
+declare function svgstore(options?: SvgstoreOptions): {
 	element: import('cheerio').CheerioAPI;
-	add: (id: string, file: string, options?: Options) => any;
-	toString: (options?: Options) => string;
+	add: (id: string, file: string, options?: SvgstoreAddOptions) => any;
+	toString: (options?: SvgstoreTostringOptions) => string;
 };
 
 export default svgstore;
