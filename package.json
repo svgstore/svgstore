@@ -37,6 +37,7 @@
   "repository": "svgstore/svgstore",
   "license": "MIT",
   "main": "src/svgstore.js",
+  "types": "types/index.d.ts",
   "dependencies": {
     "cheerio": "v1.0.0-rc.10"
   },
