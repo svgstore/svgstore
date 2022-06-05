@@ -27,4 +27,5 @@ declare function svgstore(options?: SvgstoreOptions): {
 	toString: (options?: SvgstoreTostringOptions) => string;
 };
 
+export { SvgstoreOptions, SvgstoreAddOptions, SvgstoreTostringOptions };
 export default svgstore;
