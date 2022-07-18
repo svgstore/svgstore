@@ -38,6 +38,7 @@
   "license": "MIT",
   "main": "src/svgstore.js",
   "dependencies": {
+    "@resvg/resvg-js": "^2.1.0",
     "cheerio": "v1.0.0-rc.10"
   },
   "engines": {

@@ -5,6 +5,7 @@ var loadXml = require('./utils/load-xml');
 var removeAttributes = require('./utils/remove-attributes');
 var setAttributes = require('./utils/set-attributes');
 var svgToSymbol = require('./utils/svg-to-symbol');
+var getSvgRect = require('./utils/get-svg-rect');
 
 var SELECTOR_SVG = 'svg';
 var SELECTOR_DEFS = 'defs';
@@ -23,6 +24,7 @@ var DEFAULT_OPTIONS = {
 	symbolAttrs: false,
 	copyAttrs: false,
 	renameDefs: false,
+	fragmentIdentifier: null,
 };
 
 function svgstore(options) {
@@ -32,6 +34,8 @@ function svgstore(options) {
 	var parent = loadXml(TEMPLATE_SVG);
 	var parentSvg = parent(SELECTOR_SVG);
 	var parentDefs = parent(SELECTOR_DEFS);
+
+	let currentY = 0;
 
 	return {
 		element: parent,
@@ -92,6 +96,22 @@ function svgstore(options) {
 			copyAttributes(childSymbol, childSvg, addOptions.copyAttrs);
 			setAttributes(childSymbol, addOptions.symbolAttrs);
 			parentSvg.append(childSymbol);
+
+			if (typeof svgstoreOptions.fragmentIdentifier === 'function') {
+				const { width, height } = getSvgRect(file);
+				const childView = child('<view/>');
+				childView.attr('id', svgstoreOptions.fragmentIdentifier(id));
+				childView.attr('viewBox', `0 ${currentY} ${width} ${height}`);
+				const childUse = child('<use/>');
+				childUse.attr('xlink:href', `#${id}`);
+				childUse.attr('width', width);
+				childUse.attr('height', height);
+				childUse.attr('x', 0);
+				childUse.attr('y', currentY);
+				currentY += height;
+				parentSvg.append(childView);
+				parentSvg.append(childUse);
+			}
 
 			return this;
 		},
