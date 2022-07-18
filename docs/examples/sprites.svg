@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg"><defs/><symbol id="unicorn" viewBox="0 0 64 64">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><symbol id="unicorn" viewBox="0 0 64 64">
 <g>
 	<g>
 		<g>
@@ -70,7 +70,7 @@
 		c0,0-4.606,5.271-10.041,9.45c0,0,11.297-2.86,18.275-9.357c0,0,0.815,4.672-8.524,7.768C27.792,22.966,54.687,22.269,45.73,9.555z
 		"/>
 </g>
-</symbol><symbol id="rainbow" viewBox="0 0 64 64">
+</symbol><view id="view-unicorn" viewBox="0 0 64 64"/><use xlink:href="#unicorn" width="64" height="64" x="0" y="0"/><symbol id="rainbow" viewBox="0 0 64 64">
 <g>
 	<g>
 		<path fill="#FF6666" d="M62,6.503V2C35.034,2,13.172,23.776,13.172,50.638h4.521C17.692,26.264,37.532,6.503,62,6.503z"/>
@@ -102,4 +102,4 @@
 			c-0.14-0.08-0.281-0.156-0.425-0.229c0-0.022,0-0.044,0-0.066C37.575,38.442,32.79,33.684,26.907,33.684L26.907,33.684z"/>
 	</g>
 </g>
-</symbol></svg>
+</symbol><view id="view-rainbow" viewBox="0 64 64 64"/><use xlink:href="#rainbow" width="64" height="64" x="0" y="64"/></svg>

@@ -230,3 +230,26 @@ test('should rename defs id', async (t) => {
 
 	t.strictEqual(store.toString(), expected);
 });
+
+test('should add <view/> and <use/> to enable SVG Fragment Identifiers', async (t) => {
+	const store = svgstore({ fragmentIdentifier: (id) => `view-${id}` })
+		.add('foo', doctype + FIXTURE_SVGS.foo.replace('<svg', svgNs.slice(0, -1)))
+		.add('bar', doctype + FIXTURE_SVGS.bar.replace('<svg', svgNs.slice(0, -1)));
+
+	const expected =
+		doctype +
+		svgNs +
+		'<defs>' +
+		'<linear-gradient style="fill: red;"/>' +
+		'<radial-gradient style="stroke: red;"/>' +
+		'</defs>' +
+		'<symbol id="foo" viewBox="0 0 100 100"><path style="fill: red;"/></symbol>' +
+		'<view id="view-foo" viewBox="0 0 100 100"/>' +
+		'<use xlink:href="#foo" width="100" height="100" x="0" y="0"/>' +
+		'<symbol id="bar" viewBox="0 0 200 200"><rect style="stroke: red;"/></symbol>' +
+		'<view id="view-bar" viewBox="0 100 200 200"/>' +
+		'<use xlink:href="#bar" width="200" height="200" x="0" y="100"/>' +
+		'</svg>';
+
+	t.strictEqual(store.toString(), expected);
+});
